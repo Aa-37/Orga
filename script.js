@@ -5,193 +5,193 @@ document.addEventListener("DOMContentLoaded", () => {
     const popupDate = document.getElementById("popup-date");
     const additionalTasksList = document.getElementById("additional-tasks");
     const tabs = document.querySelectorAll("nav a");
-
-    function getTodayDateString() {
-        const today = new Date();
-        return today.toLocaleDateString("fr-FR", {
-            day: "numeric",
-            month: "long",
-        });
-    }
-
-    function shouldShowPopup() {
-        const lastShownDate = localStorage.getItem("lastPopupDate");
-        const currentDate = new Date();
-        const currentHour = currentDate.getHours();
-
-        if (!lastShownDate || (new Date(lastShownDate).toDateString() !== currentDate.toDateString() && currentHour < 12)) {
-            localStorage.setItem("lastPopupDate", currentDate);
-            return true;
-        }
-        return false;
-    }
-
-    if (shouldShowPopup()) {
-        popupDate.textContent = `Aujourd'hui, ${getTodayDateString()}`;
-        popupOverlay.style.display = "flex";
-    }
-
-    startDayButton.addEventListener("click", () => {
-        alert("Commencez votre journée avec énergie !");
-        popupOverlay.style.display = "none";
-    });
-
-    endDayButton.addEventListener("click", () => {
-        alert("Bien joué ! N'oubliez pas de vous reposer et de vous hydrater.");
-    });
-
-    const exerciseList = document.getElementById("exercise-list");
-    const workoutTitle = document.getElementById("workout-title");
-    
-    // Define workout plan
-    const workoutPlan = {
-        "lundi": {
-            title: "Haut du Corps + Abdos",
-            exercises: [
-                { name: "Élévations latérales avec haltères", series: "4 x 15 répétitions", rest: "Repos : 45 sec" },
-                { name: "Pompes avec haltères", series: "3 x 20 répétitions", rest: "Repos : 1 min" },
-                { name: "Row incliné (tirage incliné)", series: "4 x 12 répétitions", rest: "Repos : 1 min" },
-                { name: "Curls marteau avec haltères", series: "4 x 15 répétitions", rest: "Repos : 45 sec" },
-                { name: "Russian Twist", series: "3 x 20 répétitions", rest: "Repos : 30 sec" },
-                { name: "Toe Touch avec un poids", series: "3 x 15 répétitions", rest: "Repos : 30 sec" }
-            ]
-        },
-        "mardi": {
-            title: "Bas du Corps + Cardio",
-            exercises: [
-                { name: "Squats bulgares (un pied surélevé)", series: "4 x 12 répétitions par jambe", rest: "Repos : 1 min" },
-                { name: "Jumping Jacks", series: "3 x 50 répétitions", rest: "Repos : 30 sec" },
-                { name: "Corde à sauter", series: "4 x 1 min", rest: "Repos : 30 sec" },
-                { name: "Planche", series: "3 x 45 sec", rest: "Repos : 30 sec" }
-            ]
-        },
-        "mercredi": {
-            title: "MMA",
-            exercises: []
-        },
-        "jeudi": {
-            title: "Haut du Corps + Abdos",
-            exercises: [
-                { name: "Élévations latérales avec haltères", series: "4 x 15 répétitions", rest: "Repos : 45 sec" },
-                { name: "Pompes avec haltères", series: "3 x 20 répétitions", rest: "Repos : 1 min" },
-                { name: "Row incliné (tirage incliné)", series: "4 x 12 répétitions", rest: "Repos : 1 min" },
-                { name: "Curls marteau avec haltères", series: "4 x 15 répétitions", rest: "Repos : 45 sec" },
-                { name: "Russian Twist", series: "3 x 20 répétitions", rest: "Repos : 30 sec" },
-                { name: "Toe Touch avec un poids", series: "3 x 15 répétitions", rest: "Repos : 30 sec" }
-            ]
-        },
-        "vendredi": {
-            title: "Bas du Corps + Cardio",
-            exercises: [
-                { name: "Squats bulgares (un pied surélevé)", series: "4 x 12 répétitions par jambe", rest: "Repos : 1 min" },
-                { name: "Jumping Jacks", series: "3 x 50 répétitions", rest: "Repos : 30 sec" },
-                { name: "Corde à sauter", series: "4 x 1 min", rest: "Repos : 30 sec" },
-                { name: "Planche", series: "3 x 45 sec", rest: "Repos : 30 sec" }
-            ]
-        },
-        "samedi": {
-            title: "Circuit Complet (tout le corps)",
-            exercises: [
-                { name: "Corde à sauter", series: "40 secondes", rest: "Repos : 20 sec" },
-                { name: "Pompes avec haltères", series: "40 secondes", rest: "Repos : 20 sec" },
-                { name: "Row incliné", series: "40 secondes", rest: "Repos : 20 sec" },
-                { name: "Squats bulgares", series: "40 secondes", rest: "Repos : 20 sec" },
-                { name: "Russian Twist", series: "40 secondes", rest: "Repos : 20 sec" },
-                { name: "Jumping Jacks", series: "40 secondes", rest: "Repos : 20 sec" },
-                { name: "Planche", series: "40 secondes", rest: "Repos : 20 sec" },
-            ]
-        },
-        "dimanche": {
-            title: "Repos complet",
-            exercises: []
-        }
-    };
-
-    function displayWorkout() {
-        const today = new Date();
-        const options = { weekday: 'long' };
-        const dayName = today.toLocaleDateString('fr-FR', options);
-        
-        workoutTitle.textContent = workoutPlan[dayName].title;
-        exerciseList.innerHTML = "";
-
-        workoutPlan[dayName].exercises.forEach(exercise => {
-            const li = document.createElement("li");
-            li.innerHTML = `${exercise.name} - ${exercise.series} (${exercise.rest})`;
-            exerciseList.appendChild(li);
-        });
-    }
-
-    displayWorkout();
-
-    // Tâches et devoirs
-    const taskList = document.getElementById("task-list");
-    const addTaskButton = document.getElementById("add-task-btn");
+    const tabContents = document.querySelectorAll(".tab-content");
     const taskTitleInput = document.getElementById("task-title");
     const taskDateInput = document.getElementById("task-date");
     const taskTimeInput = document.getElementById("task-time");
+    const addTaskButton = document.getElementById("add-task-btn");
+    const taskList = document.getElementById("task-list");
     const calendarTaskList = document.getElementById("calendar-task-list");
+    const calendarDaysContainer = document.getElementById("calendar-days");
+    const workoutTitle = document.getElementById("workout-title");
+    const exerciseList = document.getElementById("exercise-list");
+    const hydrationGoalCheckbox = document.getElementById("goal-hydration");
 
-    function addTask() {
-        const title = taskTitleInput.value.trim();
-        const dueDate = taskDateInput.value;
-        const dueTime = taskTimeInput.value;
-
-        if (title && dueDate && dueTime) {
-            const taskDateTime = new Date(`${dueDate}T${dueTime}`);
+    // Function to update tasks from local storage
+    function updateTasks() {
+        const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        taskList.innerHTML = "";
+        calendarTaskList.innerHTML = "";
+        tasks.forEach((task) => {
             const li = document.createElement("li");
-            li.innerHTML = `<input type="checkbox" aria-label="Marquer la tâche ${title} comme terminée"> <span>${title}</span>`;
-            li.querySelector("input").addEventListener("change", () => {
-                li.querySelector("span").classList.toggle("completed");
+            li.textContent = `${task.title} - ${task.date} ${task.time}`;
+            li.classList.add(task.completed ? "completed" : "");
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.checked = task.completed;
+            checkbox.addEventListener("change", () => {
+                task.completed = checkbox.checked;
+                localStorage.setItem("tasks", JSON.stringify(tasks));
+                updateTasks();
             });
+            li.prepend(checkbox);
             taskList.appendChild(li);
-            updateLocalStorageTasks();
+            calendarTaskList.appendChild(li.cloneNode(true));
+        });
+    }
 
-            // Add task to the calendar
-            const calendarLi = document.createElement("li");
-            calendarLi.innerHTML = `<span>${title} - Échéance : ${taskDateTime.toLocaleString("fr-FR")}</span>`;
-            calendarTaskList.appendChild(calendarLi);
+    // Function to update workout plan based on the day of the week
+    function updateWorkoutPlan() {
+        const daysOfWeek = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+        const today = new Date();
+        const dayIndex = today.getDay() === 0 ? 6 : today.getDay() - 1; // Adjust for Sunday to be the last day (index 6)
 
-            // Clear input fields
-            taskTitleInput.value = "";
-            taskDateInput.value = "";
-            taskTimeInput.value = "";
-            alert(`Tâche "${title}" ajoutée avec succès !`);
-        } else {
-            alert("Veuillez remplir tous les champs !");
+        const workouts = [
+            {
+                title: "Haut du Corps + Abdos",
+                exercises: [
+                    { name: "Élévations latérales avec haltères", sets: "4 x 15", rest: "45 sec" },
+                    { name: "Pompes avec haltères", sets: "3 x 20", rest: "1 min" },
+                    { name: "Row incliné", sets: "4 x 12", rest: "1 min" },
+                    { name: "Curls marteau avec haltères", sets: "4 x 15", rest: "45 sec" },
+                    { name: "Russian Twist", sets: "3 x 20", rest: "30 sec" },
+                    { name: "Toe Touch avec un poids", sets: "3 x 15", rest: "30 sec" },
+                ],
+            },
+            {
+                title: "Bas du Corps + Cardio",
+                exercises: [
+                    { name: "Squats bulgares", sets: "4 x 12 par jambe", rest: "1 min" },
+                    { name: "Jumping Jacks", sets: "3 x 50", rest: "30 sec" },
+                    { name: "Corde à sauter", sets: "4 x 1 min", rest: "30 sec" },
+                    { name: "Planche", sets: "3 x 45 sec", rest: "30 sec" },
+                ],
+            },
+            { title: "MMA", exercises: [] },
+            {
+                title: "Haut du Corps + Abdos (Intensité élevée)",
+                exercises: [] // Replicate Day 1 exercises
+            },
+            {
+                title: "Bas du Corps + Cardio",
+                exercises: [] // Replicate Day 2 exercises
+            },
+            {
+                title: "Circuit Complet (tout le corps)",
+                exercises: [
+                    { name: "Corde à sauter", sets: "40 sec", rest: "20 sec" },
+                    { name: "Pompes avec haltères", sets: "40 sec", rest: "20 sec" },
+                    { name: "Row incliné", sets: "40 sec", rest: "20 sec" },
+                    { name: "Squats bulgares", sets: "40 sec", rest: "20 sec" },
+                    { name: "Russian Twist", sets: "40 sec", rest: "20 sec" },
+                    { name: "Jumping Jacks", sets: "40 sec", rest: "20 sec" },
+                    { name: "Planche", sets: "40 sec", rest: "20 sec" },
+                ],
+            },
+            { title: "Repos complet", exercises: [] },
+        ];
+
+        const workoutToday = workouts[dayIndex];
+        workoutTitle.textContent = `Programme du ${daysOfWeek[dayIndex]} : ${workoutToday.title}`;
+        exerciseList.innerHTML = workoutToday.exercises.map(exercise => `
+            <li>
+                ${exercise.name || "Repos"} - Séries: ${exercise.sets || "N/A"} - Repos: ${exercise.rest || "N/A"}
+            </li>
+        `).join('');
+    }
+
+    // Function to initialize the calendar
+    function initializeCalendar() {
+        const daysOfWeek = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+        calendarDaysContainer.innerHTML = daysOfWeek.map(day => `
+            <div class="day-column">
+                <h4>${day}</h4>
+                <ul id="calendar-task-list">
+                    <!-- Tasks for the day will go here -->
+                </ul>
+            </div>
+        `).join('');
+    }
+
+    // Function to reset local storage at the start of each week
+    function resetLocalStorageWeekly() {
+        const now = new Date();
+        const lastReset = localStorage.getItem("lastReset");
+        if (!lastReset || new Date(lastReset).getTime() < now.setHours(0, 0, 0, 0) - (now.getDay() * 24 * 60 * 60 * 1000)) {
+            localStorage.setItem("tasks", JSON.stringify([]));
+            localStorage.setItem("lastReset", new Date().toISOString());
         }
     }
 
-    function updateLocalStorageTasks() {
-        const tasks = Array.from(taskList.children).map((li) => li.innerHTML);
-        localStorage.setItem("tasks", JSON.stringify(tasks));
-    }
+    // Event listeners
+    startDayButton.addEventListener("click", () => {
+        popupOverlay.style.display = "none";
+        resetLocalStorageWeekly();
+        updateTasks();
+    });
 
-    addTaskButton.addEventListener("click", addTask);
+    endDayButton.addEventListener("click", () => {
+        const tasksCompleted = document.querySelectorAll("#task-list input[type='checkbox']:checked");
+        additionalTasksList.innerHTML = "";
 
-    // Charge les tâches depuis localStorage à l'ouverture de la page
-    function loadTasks() {
-        const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-        tasks.forEach(taskHTML => {
+        tasksCompleted.forEach(task => {
             const li = document.createElement("li");
-            li.innerHTML = taskHTML;
-            taskList.appendChild(li);
+            li.textContent = task.parentElement.textContent.trim();
+            additionalTasksList.appendChild(li);
         });
-    }
 
-    loadTasks();
+        popupDate.textContent = `Résumé de la journée - ${getTodayDateString()}`;
+        popupOverlay.style.display = "flex"; // Affiche le popup
+    });
 
-    tabs.forEach(tab => {
-        tab.addEventListener("click", (e) => {
-            e.preventDefault();
-            tabs.forEach(t => document.querySelector(`#${t.getAttribute("data-tab")}`).classList.remove("active"));
-            document.querySelector(`#${e.target.getAttribute("data-tab")}`).classList.add("active");
+    // Manage tabs
+    tabs.forEach((tab, index) => {
+        tab.addEventListener("click", (event) => {
+            event.preventDefault(); // Prevent default anchor behavior
+
+            // Hide all tab contents
+            tabContents.forEach(content => content.classList.remove("active"));
+
+            // Show the corresponding tab content
+            tabContents[index].classList.add("active");
+
+            // Update active state of tabs
+            tabs.forEach(t => t.classList.remove("active"));
+            tab.classList.add("active");
         });
     });
 
-    // Objectifs d'hydratation
-    const hydrationCheckbox = document.getElementById("goal-hydration");
-    hydrationCheckbox.addEventListener("change", () => {
-        alert("Bien joué ! Continuez à bien vous hydrater.");
+    // Show the first tab by default
+    tabContents[0].classList.add("active");
+    tabs[0].classList.add("active");
+
+    // Add task functionality
+    addTaskButton.addEventListener("click", () => {
+        const title = taskTitleInput.value;
+        const date = taskDateInput.value;
+        const time = taskTimeInput.value;
+
+        if (title && date && time) {
+            const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+            tasks.push({ title, date, time, completed: false });
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+
+            taskTitleInput.value = "";
+            taskDateInput.value = "";
+            taskTimeInput.value = "";
+            updateTasks();
+        }
     });
+
+    // Initialize the app
+    updateWorkoutPlan();
+    initializeCalendar();
+    resetLocalStorageWeekly();
+    updateTasks();
 });
+
+// Helper function to get today's date in string format
+function getTodayDateString() {
+    const today = new Date();
+    return today.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+}
