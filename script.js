@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
   const popupOverlay = document.getElementById("popup-overlay");
   const startDayButton = document.getElementById("start-day-btn");
+  const endDayButton = document.getElementById("end-day-btn");
   const popupDate = document.getElementById("popup-date");
 
-  // Fonction pour afficher la date d'aujourd'hui dans le format requis
   function getTodayDateString() {
     const today = new Date();
     return today.toLocaleDateString("fr-FR", {
@@ -12,29 +12,38 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Fonction pour vérifier si le pop-up doit être affiché
   function shouldShowPopup() {
     const lastShownDate = localStorage.getItem("lastPopupDate");
     const currentDate = new Date();
     const currentHour = currentDate.getHours();
 
-    // Affiche le pop-up si aucune date n'est enregistrée ou si la date est différente et il est après 7h
     if (!lastShownDate || (new Date(lastShownDate).toDateString() !== currentDate.toDateString() && currentHour >= 7)) {
       return true;
     }
     return false;
   }
 
-  // Afficher le pop-up si les conditions sont remplies
   if (shouldShowPopup()) {
     popupDate.textContent = getTodayDateString();
     popupOverlay.style.display = "flex";
   }
 
-  // Bouton pour fermer le pop-up
   startDayButton.addEventListener("click", () => {
     popupOverlay.style.display = "none";
-    // Enregistre la date du jour pour éviter que le pop-up réapparaisse
     localStorage.setItem("lastPopupDate", new Date().toDateString());
+  });
+
+  endDayButton.addEventListener("click", () => {
+    localStorage.removeItem("lastPopupDate");
+    alert("Résumé de la journée terminé ! Le pop-up se réinitialisera pour demain.");
+  });
+
+  const tabs = document.querySelectorAll("nav a");
+  tabs.forEach(tab => {
+    tab.addEventListener("click", (e) => {
+      e.preventDefault();
+      document.querySelectorAll(".tab-content").forEach(content => content.classList.remove("active"));
+      document.getElementById(tab.dataset.tab).classList.add("active");
+    });
   });
 });
