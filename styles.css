@@ -1,87 +1,105 @@
 body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 header {
-  background-color: #4CAF50;
-  color: white;
-  width: 100%;
-  padding: 10px;
-  text-align: center;
+    background-color: #4CAF50;
+    color: white;
+    width: 100%;
+    padding: 10px;
+    text-align: center;
 }
 
 nav a {
-  margin: 0 15px;
-  color: white;
-  text-decoration: none;
+    margin: 0 15px;
+    color: white;
+    text-decoration: none;
 }
 
 nav a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 .tab-content {
-  display: none;
-  padding: 20px;
+    display: none;
+    padding: 20px;
 }
 
 .tab-content.active {
-  display: block;
+    display: block;
 }
 
 /* Popup styles */
 .popup-overlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
-  justify-content: center;
-  align-items: center;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease;
 }
 
 .popup-content {
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  width: 90%;
-  max-width: 400px;
-  text-align: center;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
 }
 
 button {
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 button:hover {
-  background-color: #45a049;
+    background-color: #45a049;
 }
 
 .day-column {
-  background-color: #f3f3f3;
-  border: 1px solid #ddd;
-  padding: 10px;
-  width: 100%;
-  margin: 5px 0;
+    background-color: #f3f3f3;
+    border: 1px solid #ddd;
+    padding: 10px;
+    width: 100%;
+    margin: 5px 0;
 }
 
 #workout-today ul {
-  list-style-type: none;
-  padding: 0;
+    list-style-type: none;
+    padding: 0;
 }
 
 #task-list li {
-  margin: 5px 0;
+    margin: 5px 0;
+    display: flex;
+    align-items: center;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: gray;
+}
+
+#exercise-list li, #task-list li {
+    display: flex;
+    align-items: center;
+}
+
+.transition {
+    transition: all 0.3s ease;
 }
