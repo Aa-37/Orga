@@ -1,35 +1,46 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page d'Accueil</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Suivi de Santé et Bien-être</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Pop-up de démarrage -->
-    <div id="popup" class="popup" style="display: none;">
-        <div class="popup-content">
-            <h2>Résumé de la journée</h2>
-            <p>Date : <span id="date"></span></p>
-            <p>Objectifs journaliers : hydratation, coucher, etc.</p>
-            <button id="startButton">Commencer ma journée</button>
-        </div>
+  <div id="popup-overlay" class="popup-overlay">
+    <div class="popup-content">
+      <h2>Résumé de la Journée</h2>
+      <p id="popup-date"></p>
+      <ul>
+        <li>Objectifs journaliers : Hydratation, heure de coucher, tâches prioritaires</li>
+        <li>Tâches et devoirs du jour</li>
+        <li>Zone musculaire ciblée : Haut du corps</li>
+      </ul>
+      <button id="start-day-btn">Commencer ma journée</button>
     </div>
+  </div>
 
-    <!-- Autres éléments de la page -->
+  <header>
+    <h1>Suivi de Santé et de Bien-être</h1>
     <nav>
-        <a href="#" data-tab="training">Entraînement</a>
-        <a href="#" data-tab="tasks">Devoirs et Tâches</a>
-        <a href="#" data-tab="calendar">Calendrier</a>
+      <a href="#">Entraînement</a>
+      <a href="#">Devoirs et Tâches</a>
+      <a href="#">Calendrier</a>
+      <a href="#">Tableau de Bord</a>
+      <a href="#">Nutrition</a>
+      <a href="#">Journal de Bord</a>
+      <a href="#">Récompenses et Badges</a>
     </nav>
-    <div id="training" class="tab-content">Contenu Entraînement</div>
-    <div id="tasks" class="tab-content">Contenu Tâches</div>
-    <div id="calendar" class="tab-content">Contenu Calendrier</div>
+  </header>
 
-    <canvas id="progressChart"></canvas>
-    <script src="script.js"></script>
+  <main>
+    <section>
+      <h2>Mes Tâches</h2>
+      <input type="text" placeholder="Ajouter une tâche...">
+      <button>Ajouter Tâche</button>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
 </body>
 </html>
-
-
