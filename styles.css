@@ -95,7 +95,7 @@ button:hover {
     width: 100%;
 }
 
-#calendar-tasks {
+.time-slots {
     width: 30%;
 }
 
@@ -126,6 +126,26 @@ button:hover {
     color: gray;
 }
 
-.transition {
-    transition: all 0.3s ease;
+.feedback {
+    margin-top: 20px;
 }
+
+#progressChart {
+    margin-top: 20px;
+    width: 100%; /* S'assurer que le graphique s'adapte à la largeur */
+    max-width: 800px; /* Largeur maximale du graphique */
+}
+
+#time-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.time-slot {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 10px;
+    border-bottom: 1px solid #ccc; /* Ligne de séparation entre les horaires */
+}
+
