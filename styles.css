@@ -71,6 +71,25 @@ button:hover {
     background-color: #45a049;
 }
 
+#weekly-calendar {
+    display: flex;
+    flex-direction: column;
+}
+
+.calendar-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+#calendar-tasks {
+    width: 30%;
+}
+
+#calendar-days {
+    width: 65%;
+}
+
 .day-column {
     background-color: #f3f3f3;
     border: 1px solid #ddd;
@@ -79,13 +98,12 @@ button:hover {
     margin: 5px 0;
 }
 
-#workout-today ul {
+#exercise-list, #task-list, #calendar-task-list {
     list-style-type: none;
     padding: 0;
 }
 
-#task-list li {
-    margin: 5px 0;
+#exercise-list li, #task-list li, #calendar-task-list li {
     display: flex;
     align-items: center;
 }
@@ -93,11 +111,6 @@ button:hover {
 .completed {
     text-decoration: line-through;
     color: gray;
-}
-
-#exercise-list li, #task-list li {
-    display: flex;
-    align-items: center;
 }
 
 .transition {
