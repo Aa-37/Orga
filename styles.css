@@ -2,6 +2,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #f4f4f4;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -25,9 +26,28 @@ nav a:hover {
     text-decoration: underline;
 }
 
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    background-color: #333;
+}
+
+.tabs button {
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    background: none;
+}
+
+.tabs button:hover {
+    background-color: #575757;
+}
+
 .tab-content {
     display: none;
     padding: 20px;
+    background-color: white;
 }
 
 .tab-content.active {
@@ -48,10 +68,11 @@ nav a:hover {
     transition: opacity 0.3s ease;
 }
 
-.popup-content {
+.popup {
     background-color: white;
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     width: 90%;
     max-width: 400px;
     text-align: center;
