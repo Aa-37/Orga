@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Orgaplan</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div id="popup-overlay" class="popup-overlay">
@@ -35,6 +36,11 @@
                     <!-- Exercises will be added dynamically here -->
                 </ul>
             </div>
+            <div class="feedback">
+                <input type="number" id="feedback-weight" placeholder="Poids (kg)" aria-label="Poids" min="0">
+                <input type="number" id="feedback-reps" placeholder="Répétitions" aria-label="Répétitions" min="0">
+                <button id="submit-feedback" aria-label="Soumettre Feedback">Soumettre Feedback</button>
+            </div>
         </section>
 
         <section id="devoirs" class="tab-content">
@@ -55,10 +61,10 @@
         <section id="calendrier" class="tab-content">
             <h2>Calendrier</h2>
             <div class="calendar-container">
-                <div id="calendar-tasks">
-                    <h3>Tâches</h3>
-                    <ul id="calendar-task-list">
-                        <!-- Calendar tasks will be added dynamically here -->
+                <div class="time-slots">
+                    <h3>Heures de la Journée</h3>
+                    <ul id="time-list">
+                        <!-- Time slots will be added dynamically here -->
                     </ul>
                 </div>
                 <div id="weekly-calendar">
@@ -73,6 +79,8 @@
         <section id="tableau-de-bord" class="tab-content">
             <h2>Tableau de Bord</h2>
             <h3>Suivi des Objectifs Quotidiens</h3>
+            <canvas id="progressChart" width="400" height="200"></canvas>
+            <h4>Suivi d'avancement</h4>
             <ul>
                 <li>
                     Heure de coucher : 
@@ -95,6 +103,3 @@
 </body>
 </html>
 
-    <script src="script.js"></script>
-</body>
-</html>
