@@ -12,7 +12,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Affichage du popup de démarrage
     const popup = document.getElementById('popup');
     const startButton = document.getElementById('startButton');
-    startButton.addEventListener('click', () => popup.style.display = 'none');
+
+    // Fonction pour masquer le pop-up quand le bouton est cliqué
+    if (startButton) {
+        startButton.addEventListener('click', () => {
+            popup.style.display = 'none'; // Cache le pop-up
+        });
+    }
 
     // IndexedDB pour stocker les données des tâches
     let db;
@@ -92,6 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
 
 
     // Afficher la pop-up au chargement
