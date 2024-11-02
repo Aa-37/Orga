@@ -30,11 +30,10 @@
         <section id="entraînement" class="tab-content">
             <h2>Entraînement</h2>
             <div id="workout-today">
-                <h3>Planning du jour : Haut du corps + Abdos</h3>
+                <h3 id="workout-title"></h3>
                 <ul id="exercise-list">
                     <!-- Exercises will be added dynamically here -->
                 </ul>
-                <button id="add-exercise-btn" aria-label="Ajouter un exercice">Ajouter un exercice</button>
             </div>
         </section>
 
@@ -46,6 +45,7 @@
                 <option value="urgent">Urgent</option>
             </select>
             <input type="date" id="task-date" aria-label="Date d'échéance">
+            <input type="time" id="task-time" aria-label="Heure d'échéance">
             <button id="add-task-btn" aria-label="Ajouter Tâche">Ajouter Tâche</button>
             <ul id="task-list">
                 <!-- Tasks will be added dynamically here -->
@@ -54,10 +54,19 @@
 
         <section id="calendrier" class="tab-content">
             <h2>Calendrier</h2>
-            <p>Vue hebdomadaire des tâches et devoirs</p>
-            <div id="weekly-calendar">
-                <div class="day-column">Lundi: Entraînement Haut du corps</div>
-                <div class="day-column">Mardi: Bas du corps</div>
+            <div class="calendar-container">
+                <div id="calendar-tasks">
+                    <h3>Tâches</h3>
+                    <ul id="calendar-task-list">
+                        <!-- Calendar tasks will be added dynamically here -->
+                    </ul>
+                </div>
+                <div id="weekly-calendar">
+                    <h3>Emploi du temps</h3>
+                    <div id="calendar-days">
+                        <!-- Weekdays will be displayed here -->
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -70,7 +79,10 @@
                     <input type="time" id="bedtime" aria-label="Heure de coucher">
                     <input type="checkbox" id="goal-bedtime" aria-label="Couché avant 23h"> Couché avant 23h
                 </li>
-                <li>Objectifs d'hydratation : 3L / jour</li>
+                <li>
+                    Objectifs d'hydratation : 3L / jour
+                    <input type="checkbox" id="goal-hydration" aria-label="Atteint l'objectif d'hydratation"> Atteint
+                </li>
                 <li>
                     <input type="checkbox" id="workout-completed" aria-label="Séance d'entraînement terminée"> Séance d'entraînement terminée
                 </li>
@@ -82,6 +94,7 @@
     <script src="script.js"></script>
 </body>
 </html>
+
 
 
 
