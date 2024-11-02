@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Suivi de Santé</title>
+</head>
+<body>
+    <h1>Suivi de Santé et de Bien-être</h1>
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <h2>Résumé de la Journée</h2>
+            <p id="date"></p>
+            <button id="startButton">Commencer ma journée</button>
+        </div>
+    </div>
+    <div id="task-section">
+        <h2>Mes Tâches</h2>
+        <input type="text" id="taskTitle" placeholder="Ajouter une tâche...">
+        <select id="taskPriority">
+            <option value="Moyen">Moyen</option>
+            <option value="Urgent">Urgent</option>
+        </select>
+        <button id="addTaskButton">Ajouter Tâche</button>
+        <ul id="taskList"></ul>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
