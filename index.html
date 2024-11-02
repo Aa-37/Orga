@@ -23,23 +23,71 @@
   <header>
     <h1>Suivi de Santé et de Bien-être</h1>
     <nav>
-      <a href="#">Entraînement</a>
-      <a href="#">Devoirs et Tâches</a>
-      <a href="#">Calendrier</a>
-      <a href="#">Tableau de Bord</a>
-      <a href="#">Nutrition</a>
-      <a href="#">Journal de Bord</a>
-      <a href="#">Récompenses et Badges</a>
+      <a href="#" data-tab="entraînement">Entraînement</a>
+      <a href="#" data-tab="devoirs">Devoirs et Tâches</a>
+      <a href="#" data-tab="calendrier">Calendrier</a>
+      <a href="#" data-tab="tableau-de-bord">Tableau de Bord</a>
+      <a href="#" data-tab="nutrition">Nutrition</a>
+      <a href="#" data-tab="journal">Journal de Bord</a>
     </nav>
   </header>
 
   <main>
-    <section>
-      <h2>Mes Tâches</h2>
-      <input type="text" placeholder="Ajouter une tâche...">
+    <section id="entraînement" class="tab-content">
+      <h2>Entraînement</h2>
+      <div id="workout-today">
+        <h3>Planning du jour : Haut du corps + Abdos</h3>
+        <ul>
+          <li><input type="checkbox"> Élévations latérales avec haltères - 4 x 15 répétitions</li>
+          <li><input type="checkbox"> Pompes avec haltères - 3 x 20 répétitions</li>
+          <li><input type="checkbox"> Row incliné - 4 x 12 répétitions</li>
+          <li><input type="checkbox"> Curls marteau avec haltères - 4 x 15 répétitions</li>
+          <li><input type="checkbox"> Russian Twist - 3 x 20 répétitions</li>
+        </ul>
+      </div>
+      <button>Ajouter un exercice</button>
+    </section>
+
+    <section id="devoirs" class="tab-content">
+      <h2>Devoirs et Tâches</h2>
+      <input type="text" placeholder="Titre de la tâche">
+      <select>
+        <option value="moyen">Moyen</option>
+        <option value="urgent">Urgent</option>
+      </select>
+      <input type="date">
       <button>Ajouter Tâche</button>
+      <ul id="task-list">
+        <li><input type="checkbox"> Terminer le projet de science <span>(urgent)</span></li>
+      </ul>
+    </section>
+
+    <section id="calendrier" class="tab-content">
+      <h2>Calendrier</h2>
+      <p>Vue hebdomadaire des tâches et devoirs</p>
+      <!-- Calendrier hebdomadaire -->
+      <div id="weekly-calendar">
+        <div class="day-column">Lundi: Entraînement Haut du corps</div>
+        <div class="day-column">Mardi: Bas du corps</div>
+      </div>
+    </section>
+
+    <section id="tableau-de-bord" class="tab-content">
+      <h2>Tableau de Bord</h2>
+      <h3>Suivi des Objectifs Quotidiens</h3>
+      <ul>
+        <li>Heure de coucher : <input type="time"></li>
+        <li>Objectifs d'hydratation : 3L / jour</li>
+        <li><input type="checkbox"> Séance d'entraînement terminée</li>
+      </ul>
+      <button id="end-day-btn">Terminer ma journée</button>
     </section>
   </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
 
   <script src="script.js"></script>
 </body>
