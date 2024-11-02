@@ -9,18 +9,38 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Affichage du popup de démarrage
+    // Affichage conditionnel du popup de démarrage
     const popup = document.getElementById('popup');
     const startButton = document.getElementById('startButton');
 
-    // Fonction pour masquer le pop-up quand le bouton est cliqué
-    if (startButton) {
-        startButton.addEventListener('click', () => {
-            popup.style.display = 'none'; // Cache le pop-up
-        });
+    // Fonction pour afficher le pop-up si nécessaire
+    function shouldShowPopup() {
+        const lastShown = localStorage.getItem('popupLastShown');
+        const now = new Date();
+        const currentHour = now.getHours();
+
+        // Le popup se réinitialise chaque jour à 7 heures
+        if (!lastShown || new Date(lastShown).toDateString() !== now.toDateString()) {
+            if (currentHour >= 7) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    // IndexedDB pour stocker les données des tâches
+    // Affiche le popup seulement si la condition est remplie
+    if (shouldShowPopup()) {
+        popup.style.display = 'block';
+        document.getElementById('date').textContent = new Date().toLocaleDateString();
+    }
+
+    // Clic pour masquer le pop-up et enregistrer la date dans localStorage
+    startButton.addEventListener('click', () => {
+        popup.style.display = 'none';
+        localStorage.setItem('popupLastShown', new Date().toISOString());
+    });
+
+    // Base de données IndexedDB pour stocker les tâches
     let db;
     const request = indexedDB.open("WellnessDB", 1);
     request.onupgradeneeded = (event) => {
@@ -39,16 +59,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const taskInput = document.getElementById('taskInput');
     const taskList = document.getElementById('taskList');
     
-    addTaskButton.addEventListener('click', () => {
-        const taskText = taskInput.value;
-        if (taskText) {
-            const transaction = db.transaction("tasks", "readwrite");
-            const taskStore = transaction.objectStore("tasks");
-            taskStore.add({ text: taskText, date: new Date().toISOString() });
-            taskInput.value = '';
-            loadTasks();
-        }
-    });
+    if (addTaskButton) {
+        addTaskButton.addEventListener('click', () => {
+            const taskText = taskInput.value;
+            if (taskText) {
+                const transaction = db.transaction("tasks", "readwrite");
+                const taskStore = transaction.objectStore("tasks");
+                taskStore.add({ text: taskText, date: new Date().toISOString() });
+                taskInput.value = '';
+                loadTasks();
+            }
+        });
+    }
 
     // Chargement des tâches
     function loadTasks() {
@@ -97,10 +119,4 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
-});
-
-
-
-    // Afficher la pop-up au chargement
-    popup.style.display = 'flex';
 });
