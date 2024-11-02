@@ -2,45 +2,67 @@ document.addEventListener("DOMContentLoaded", () => {
     const popupOverlay = document.getElementById("popup-overlay");
     const startDayButton = document.getElementById("start-day-btn");
     const endDayButton = document.getElementById("end-day-btn");
-    const popupDate = document.getElementById("popup-date");
     const additionalTasksList = document.getElementById("additional-tasks");
-    const tabs = document.querySelectorAll("nav a");
-    const tabContents = document.querySelectorAll(".tab-content");
+    const popupDate = document.getElementById("popup-date");
     const taskTitleInput = document.getElementById("task-title");
+    const taskPriorityInput = document.getElementById("task-priority");
     const taskDateInput = document.getElementById("task-date");
     const taskTimeInput = document.getElementById("task-time");
     const addTaskButton = document.getElementById("add-task-btn");
     const taskList = document.getElementById("task-list");
-    const calendarTaskList = document.getElementById("calendar-task-list");
-    const calendarDaysContainer = document.getElementById("calendar-days");
     const workoutTitle = document.getElementById("workout-title");
     const exerciseList = document.getElementById("exercise-list");
-    const hydrationGoalCheckbox = document.getElementById("goal-hydration");
+    const feedbackWeight = document.getElementById("feedback-weight");
+    const feedbackReps = document.getElementById("feedback-reps");
+    const submitFeedbackButton = document.getElementById("submit-feedback");
+    const progressChartCanvas = document.getElementById("progressChart");
+    const timeList = document.getElementById("time-list");
+    const calendarDaysContainer = document.getElementById("calendar-days");
 
-    // Function to update tasks from local storage
-    function updateTasks() {
-        const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-        taskList.innerHTML = "";
-        calendarTaskList.innerHTML = "";
-        tasks.forEach((task) => {
-            const li = document.createElement("li");
-            li.textContent = `${task.title} - ${task.date} ${task.time}`;
-            li.classList.add(task.completed ? "completed" : "");
-            const checkbox = document.createElement("input");
-            checkbox.type = "checkbox";
-            checkbox.checked = task.completed;
-            checkbox.addEventListener("change", () => {
-                task.completed = checkbox.checked;
-                localStorage.setItem("tasks", JSON.stringify(tasks));
-                updateTasks();
-            });
-            li.prepend(checkbox);
-            taskList.appendChild(li);
-            calendarTaskList.appendChild(li.cloneNode(true));
+    // Function to display the progress chart
+    const displayProgressChart = (data) => {
+        const ctx = progressChartCanvas.getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: data.map(item => item.date),
+                datasets: [{
+                    label: 'Avancement',
+                    data: data.map(item => item.progress),
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 2,
+                    fill: false,
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        title: {
+                            display: true,
+                            text: 'Pourcentage d\'achèvement'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Dates'
+                        }
+                    }
+                }
+            }
         });
-    }
+    };
 
-    // Function to update workout plan based on the day of the week
+    // Function to add time slots to the calendar
+    const populateTimeSlots = () => {
+        const hours = Array.from({ length: 24 }, (_, i) => `${i.toString().padStart(2, '0')}:00`);
+        timeList.innerHTML = hours.map(hour => `<li class="time-slot">${hour}<ul id="calendar-task-list"></ul></li>`).join('');
+    };
+
+    // Function to update the workout plan based on the day of the week
     function updateWorkoutPlan() {
         const daysOfWeek = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
         const today = new Date();
@@ -100,6 +122,27 @@ document.addEventListener("DOMContentLoaded", () => {
         `).join('');
     }
 
+    // Function to update tasks
+    function updateTasks() {
+        const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        taskList.innerHTML = "";
+        tasks.forEach(task => {
+            const li = document.createElement("li");
+            li.textContent = `${task.title} - ${task.date} ${task.time}`;
+            li.classList.add(task.completed ? "completed" : "");
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.checked = task.completed;
+            checkbox.addEventListener("change", () => {
+                task.completed = checkbox.checked;
+                localStorage.setItem("tasks", JSON.stringify(tasks));
+                updateTasks();
+            });
+            li.prepend(checkbox);
+            taskList.appendChild(li);
+        });
+    }
+
     // Function to initialize the calendar
     function initializeCalendar() {
         const daysOfWeek = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
@@ -145,6 +188,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Manage tabs
+    const tabs = document.querySelectorAll("nav a");
+    const tabContents = document.querySelectorAll(".tab-content");
     tabs.forEach((tab, index) => {
         tab.addEventListener("click", (event) => {
             event.preventDefault(); // Prevent default anchor behavior
@@ -165,33 +210,20 @@ document.addEventListener("DOMContentLoaded", () => {
     tabContents[0].classList.add("active");
     tabs[0].classList.add("active");
 
-    // Add task functionality
-    addTaskButton.addEventListener("click", () => {
-        const title = taskTitleInput.value;
-        const date = taskDateInput.value;
-        const time = taskTimeInput.value;
-
-        if (title && date && time) {
-            const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-            tasks.push({ title, date, time, completed: false });
-            localStorage.setItem("tasks", JSON.stringify(tasks));
-
-            taskTitleInput.value = "";
-            taskDateInput.value = "";
-            taskTimeInput.value = "";
-            updateTasks();
-        }
-    });
-
-    // Initialize the app
+    // Populate time slots and workout plan
+    populateTimeSlots();
     updateWorkoutPlan();
     initializeCalendar();
-    resetLocalStorageWeekly();
-    updateTasks();
-});
 
-// Helper function to get today's date in string format
-function getTodayDateString() {
-    const today = new Date();
-    return today.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-}
+    // Example data for the progress chart
+    const progressData = [
+        { date: 'Lundi', progress: 70 },
+        { date: 'Mardi', progress: 80 },
+        { date: 'Mercredi', progress: 90 },
+        { date: 'Jeudi', progress: 60 },
+        { date: 'Vendredi', progress: 100 },
+        { date: 'Samedi', progress: 30 },
+        { date: 'Dimanche', progress: 50 },
+    ];
+    displayProgressChart(progressData);
+});
