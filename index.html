@@ -1,101 +1,56 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suivi de Santé et de Bien-être</title>
+    <title>Suivi de Santé et Bien-être</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-
 <body>
-    <div id="popup" class="popup">
-        <div class="popup-content">
-            <h2>Résumé de la Journée</h2>
-            <p id="date"></p>
-            <h3>Objectifs du jour :</h3>
-            <ul>
-                <li>Hydratation</li>
-                <li>Heure de coucher</li>
-                <li>Tâches prioritaires</li>
-            </ul>
-            <h3>Tâches programmées :</h3>
-            <ul id="tasksToday"></ul>
-            <h3>Zone musculaire ciblée :</h3>
-            <p id="muscleArea">Haut du corps</p>
-            <button id="startButton">Commencer ma journée</button>
-        </div>
+
+<!-- Pop-up de Démarrage -->
+<div id="popup">
+    <div class="popup-content">
+        <h2>Résumé de la Journée</h2>
+        <p id="date">Date</p>
+        <ul id="dailySummary">
+            <li>Objectif d'hydratation : 3L</li>
+            <li>Heure de coucher : 23h</li>
+            <li>Tâches prioritaires : 2</li>
+            <li>Zone d'entraînement : Haut du corps</li>
+        </ul>
+        <button id="startButton">Commencer ma journée</button>
     </div>
+</div>
 
-    <header>
-        <h1>Suivi de Santé et de Bien-être</h1>
-        <nav>
-            <ul>
-                <li onclick="openTab('entrainement')">Entraînement</li>
-                <li onclick="openTab('devoirs')">Devoirs et Tâches</li>
-                <li onclick="openTab('calendrier')">Calendrier</li>
-                <li onclick="openTab('tableau')">Tableau de Bord</li>
-                <li onclick="openTab('nutrition')">Nutrition</li>
-                <li onclick="openTab('bienetre')">Journal de Bord</li>
-                <li onclick="openTab('recompenses')">Récompenses</li>
-            </ul>
-        </nav>
-    </header>
+<!-- Menu -->
+<nav>
+    <ul>
+        <li><a href="#" data-tab="training">Entraînement</a></li>
+        <li><a href="#" data-tab="tasks">Devoirs et Tâches</a></li>
+        <li><a href="#" data-tab="calendar">Calendrier</a></li>
+        <li><a href="#" data-tab="dashboard">Tableau de Bord</a></li>
+    </ul>
+</nav>
 
-    <main>
-        <div id="entrainement" class="tab-content">
-            <h2>Entraînement du jour</h2>
-            <p>Planning: Haut du corps + Abdos</p>
-            <input type="checkbox" id="ex1"> Élévations latérales (4 x 15)<br>
-            <input type="checkbox" id="ex2"> Pompes avec haltères (3 x 20)<br>
-            <input type="checkbox" id="ex3"> Row incliné (4 x 12)<br>
-            <input type="checkbox" id="ex4"> Curls marteau (4 x 15)<br>
-            <button id="completeTraining">Marquer comme complété</button>
-        </div>
+<!-- Contenu des Onglets -->
+<div id="content">
+    <div id="training" class="tab-content">Contenu de l'Entraînement</div>
+    <div id="tasks" class="tab-content">
+        <h3>Devoirs et Tâches</h3>
+        <ul id="taskList"></ul>
+        <input type="text" id="taskInput" placeholder="Nouvelle tâche...">
+        <button id="addTaskButton">Ajouter Tâche</button>
+    </div>
+    <div id="calendar" class="tab-content">Contenu du Calendrier</div>
+    <div id="dashboard" class="tab-content">
+        <h3>Suivi Hebdomadaire</h3>
+        <canvas id="progressChart"></canvas>
+    </div>
+</div>
 
-        <div id="devoirs" class="tab-content">
-            <h2>Devoirs et Tâches</h2>
-            <input type="text" id="taskTitle" placeholder="Ajouter une tâche...">
-            <select id="taskPriority">
-                <option value="Moyen">Moyen</option>
-                <option value="Urgent">Urgent</option>
-            </select>
-            <button id="addTaskButton">Ajouter Tâche</button>
-            <ul id="taskList"></ul>
-        </div>
-
-        <div id="calendrier" class="tab-content">
-            <h2>Calendrier</h2>
-            <p>Aperçu hebdomadaire des tâches et entraînements.</p>
-        </div>
-
-        <div id="tableau" class="tab-content">
-            <h2>Tableau de Bord</h2>
-            <p>Suivi des objectifs quotidiens.</p>
-            <button id="finishDay">Terminer ma journée</button>
-        </div>
-
-        <div id="nutrition" class="tab-content">
-            <h2>Nutrition</h2>
-            <p>Suivi simplifié des repas.</p>
-        </div>
-
-        <div id="bienetre" class="tab-content">
-            <h2>Journal de Bord</h2>
-            <p>Notes sur le bien-être et la récupération.</p>
-        </div>
-
-        <div id="recompenses" class="tab-content">
-            <h2>Récompenses et Badges</h2>
-            <p>Suivi de vos récompenses et badges.</p>
-        </div>
-    </main>
-
-    <footer>
-        <p>&copy; 2024 Suivi de Santé et de Bien-être</p>
-    </footer>
-
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
-
 </html>
+
