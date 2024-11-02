@@ -1,87 +1,85 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Orgaplan</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orgaplan</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div id="popup-overlay" class="popup-overlay">
-    <div class="popup-content">
-      <h2>Résumé de la Journée</h2>
-      <p id="popup-date"></p>
-      <ul>
-        <li>Objectifs journaliers : Hydratation, heure de coucher, tâches prioritaires</li>
-        <li>Tâches et devoirs du jour</li>
-        <li>Zone musculaire ciblée : Haut du corps</li>
-      </ul>
-      <button id="start-day-btn">Commencer ma journée</button>
+    <div id="popup-overlay" class="popup-overlay">
+        <div class="popup-content">
+            <h2>Résumé de la Journée</h2>
+            <p id="popup-date"></p>
+            <ul id="additional-tasks"></ul>
+            <button id="start-day-btn" aria-label="Commencer ma journée">Commencer ma journée</button>
+        </div>
     </div>
-  </div>
 
-  <header>
-    <h1>Orgaplan</h1>
-    <nav>
-      <a href="#" data-tab="entraînement">Entraînement</a>
-      <a href="#" data-tab="devoirs">Devoirs et Tâches</a>
-      <a href="#" data-tab="calendrier">Calendrier</a>
-      <a href="#" data-tab="tableau-de-bord">Tableau de Bord</a>
-    </nav>
-  </header>
+    <header>
+        <h1>Orgaplan</h1>
+        <nav>
+            <a href="#" data-tab="entraînement" aria-label="Onglet Entraînement">Entraînement</a>
+            <a href="#" data-tab="devoirs" aria-label="Onglet Devoirs et Tâches">Devoirs et Tâches</a>
+            <a href="#" data-tab="calendrier" aria-label="Onglet Calendrier">Calendrier</a>
+            <a href="#" data-tab="tableau-de-bord" aria-label="Onglet Tableau de Bord">Tableau de Bord</a>
+        </nav>
+    </header>
 
-  <main>
-    <section id="entraînement" class="tab-content">
-      <h2>Entraînement</h2>
-      <div id="workout-today">
-        <h3>Planning du jour : Haut du corps + Abdos</h3>
-        <ul>
-          <li><input type="checkbox"> Élévations latérales avec haltères - 4 x 15 répétitions</li>
-          <li><input type="checkbox"> Pompes avec haltères - 3 x 20 répétitions</li>
-          <li><input type="checkbox"> Row incliné - 4 x 12 répétitions</li>
-          <li><input type="checkbox"> Curls marteau avec haltères - 4 x 15 répétitions</li>
-          <li><input type="checkbox"> Russian Twist - 3 x 20 répétitions</li>
-        </ul>
-      </div>
-      <button>Ajouter un exercice</button>
-    </section>
+    <main>
+        <section id="entraînement" class="tab-content">
+            <h2>Entraînement</h2>
+            <div id="workout-today">
+                <h3>Planning du jour : Haut du corps + Abdos</h3>
+                <ul id="exercise-list">
+                    <!-- Exercises will be added dynamically here -->
+                </ul>
+                <button id="add-exercise-btn" aria-label="Ajouter un exercice">Ajouter un exercice</button>
+            </div>
+        </section>
 
-    <section id="devoirs" class="tab-content">
-      <h2>Devoirs et Tâches</h2>
-      <input type="text" placeholder="Titre de la tâche">
-      <select>
-        <option value="moyen">Moyen</option>
-        <option value="urgent">Urgent</option>
-      </select>
-      <input type="date">
-      <button>Ajouter Tâche</button>
-      <ul id="task-list">
-        <li><input type="checkbox"> Terminer le projet de science <span>(urgent)</span></li>
-      </ul>
-    </section>
+        <section id="devoirs" class="tab-content">
+            <h2>Devoirs et Tâches</h2>
+            <input type="text" id="task-title" placeholder="Titre de la tâche" aria-label="Titre de la tâche">
+            <select id="task-priority">
+                <option value="moyen">Moyen</option>
+                <option value="urgent">Urgent</option>
+            </select>
+            <input type="date" id="task-date" aria-label="Date d'échéance">
+            <button id="add-task-btn" aria-label="Ajouter Tâche">Ajouter Tâche</button>
+            <ul id="task-list">
+                <!-- Tasks will be added dynamically here -->
+            </ul>
+        </section>
 
-    <section id="calendrier" class="tab-content">
-      <h2>Calendrier</h2>
-      <p>Vue hebdomadaire des tâches et devoirs</p>
-      <div id="weekly-calendar">
-        <div class="day-column">Lundi: Entraînement Haut du corps</div>
-        <div class="day-column">Mardi: Bas du corps</div>
-      </div>
-    </section>
+        <section id="calendrier" class="tab-content">
+            <h2>Calendrier</h2>
+            <p>Vue hebdomadaire des tâches et devoirs</p>
+            <div id="weekly-calendar">
+                <div class="day-column">Lundi: Entraînement Haut du corps</div>
+                <div class="day-column">Mardi: Bas du corps</div>
+            </div>
+        </section>
 
-    <section id="tableau-de-bord" class="tab-content">
-      <h2>Tableau de Bord</h2>
-      <h3>Suivi des Objectifs Quotidiens</h3>
-      <ul>
-        <li>Heure de coucher : <input type="time"></li>
-        <li>Objectifs d'hydratation : 3L / jour</li>
-        <li><input type="checkbox"> Séance d'entraînement terminée</li>
-      </ul>
-      <button id="end-day-btn">Terminer ma journée</button>
-    </section>
-  </main>
+        <section id="tableau-de-bord" class="tab-content">
+            <h2>Tableau de Bord</h2>
+            <h3>Suivi des Objectifs Quotidiens</h3>
+            <ul>
+                <li>
+                    Heure de coucher : 
+                    <input type="time" id="bedtime" aria-label="Heure de coucher">
+                    <input type="checkbox" id="goal-bedtime" aria-label="Couché avant 23h"> Couché avant 23h
+                </li>
+                <li>Objectifs d'hydratation : 3L / jour</li>
+                <li>
+                    <input type="checkbox" id="workout-completed" aria-label="Séance d'entraînement terminée"> Séance d'entraînement terminée
+                </li>
+            </ul>
+            <button id="end-day-btn" aria-label="Terminer ma journée">Terminer ma journée</button>
+        </section>
+    </main>
 
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
 
