@@ -11,6 +11,9 @@ const submitFeedbackButton = document.getElementById('submit-feedback');
 const addTaskButton = document.getElementById('add-task-btn');
 const taskList = document.getElementById('task-list');
 
+// Tableau pour stocker les tâches ajoutées
+let tasks = [];
+
 // Fonction pour ajouter une tâche
 function addTask() {
     const taskTitle = document.getElementById('task-title').value;
@@ -19,23 +22,45 @@ function addTask() {
     const taskPriority = document.getElementById('task-priority').value;
 
     if (taskTitle) {
-        const taskItem = document.createElement('li');
-        taskItem.textContent = `${taskTitle} - ${taskDate} ${taskTime} (${taskPriority})`;
-        taskList.appendChild(taskItem);
-        document.getElementById('task-title').value = ''; // Réinitialiser le champ de saisie
+        const taskItem = {
+            title: taskTitle,
+            date: taskDate,
+            time: taskTime,
+            priority: taskPriority
+        };
+
+        tasks.push(taskItem); // Ajouter la tâche au tableau
+        updateTaskList(); // Mettre à jour la liste des tâches
+
+        // Réinitialiser les champs de saisie
+        document.getElementById('task-title').value = '';
         document.getElementById('task-date').value = '';
         document.getElementById('task-time').value = '';
     }
 }
 
-// Événements pour les boutons
-addTaskButton.addEventListener('click', addTask);
+// Fonction pour mettre à jour la liste des tâches
+function updateTaskList() {
+    taskList.innerHTML = ''; // Vider la liste actuelle
+    tasks.forEach(task => {
+        const taskElement = document.createElement('li');
+        taskElement.textContent = `${task.title} - ${task.date} ${task.time} (${task.priority})`;
+        taskList.appendChild(taskElement);
+    });
+}
 
 // Afficher le popup et ajouter un écouteur pour le bouton "Terminer ma journée"
 endDayButton.addEventListener('click', function () {
     const today = new Date();
-    popupDate.textContent = today.toLocaleDateString();
+    popupDate.textContent = today.toLocaleDateString(); // Afficher la date actuelle
     additionalTasksList.innerHTML = ''; // Réinitialiser la liste des tâches additionnelles
+
+    // Afficher les tâches additionnelles dans le popup
+    tasks.forEach(task => {
+        const taskElement = document.createElement('li');
+        taskElement.textContent = `${task.title} - ${task.date} ${task.time} (${task.priority})`;
+        additionalTasksList.appendChild(taskElement);
+    });
 
     // Afficher le popup
     popupOverlay.style.display = 'flex';
@@ -54,3 +79,5 @@ submitFeedbackButton.addEventListener('click', function () {
     console.log(`Feedback soumis: ${weight}kg, ${reps} répétitions`);
 });
 
+// Événements pour les boutons
+addTaskButton.addEventListener('click', addTask);
