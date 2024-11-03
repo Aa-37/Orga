@@ -1,3 +1,9 @@
+// Vérifier si le script est chargé
+console.log("Le script JavaScript est chargé et fonctionne.");
+
+// Vérifier localStorage
+localStorage.setItem("test", "fonctionne");
+console.log(localStorage.getItem("test"));
 document.addEventListener("DOMContentLoaded", () => {
     const popupOverlay = document.getElementById("popup-overlay");
     const addTaskButton = document.getElementById("add-task-btn");
