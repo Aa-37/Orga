@@ -1,93 +1,144 @@
 document.addEventListener("DOMContentLoaded", () => {
     const popupOverlay = document.getElementById("popup-overlay");
-    const startDayButton = document.getElementById("start-day-btn");
+    const addTaskButton = document.getElementById("add-task-btn");
+    const submitFeedbackButton = document.getElementById("submit-feedback");
     const endDayButton = document.getElementById("end-day-btn");
-    const additionalTasksList = document.getElementById("additional-tasks");
-    const popupDate = document.getElementById("popup-date");
+
     const taskTitleInput = document.getElementById("task-title");
-    const taskPriorityInput = document.getElementById("task-priority");
     const taskDateInput = document.getElementById("task-date");
     const taskTimeInput = document.getElementById("task-time");
-    const addTaskButton = document.getElementById("add-task-btn");
     const taskList = document.getElementById("task-list");
+    
+    const feedbackWeight = document.getElementById("feedback-weight");
+    const feedbackReps = document.getElementById("feedback-reps");
+    
+    const progressChartCanvas = document.getElementById("progressChart");
+    let progressChart;
 
-    // Fonction d'affichage du popup selon l'état de fin de journée
-    function showPopup() {
-        const today = new Date().toISOString().slice(0, 10);
-        const lastEndDate = localStorage.getItem("lastEndDate");
+    // 1. Afficher et masquer le popup pour la journée
+    function checkPopupDisplay() {
+        const today = new Date().toDateString();
+        const lastEndDay = localStorage.getItem("lastEndDay");
 
-        if (lastEndDate !== today) {
+        if (lastEndDay !== today) {
             popupOverlay.style.display = "flex";
-            popupDate.textContent = `Résumé de la journée du ${today}`;
-            updatePopupTasks();
+        } else {
+            popupOverlay.style.display = "none";
         }
     }
 
-    // Mise à jour des tâches affichées dans le popup
-    function updatePopupTasks() {
-        const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-        additionalTasksList.innerHTML = ""; // Réinitialise la liste
+    // 2. Ajouter une tâche et actualiser l'affichage
+    function addTask() {
+        const title = taskTitleInput.value.trim();
+        const date = taskDateInput.value;
+        const time = taskTimeInput.value;
 
-        tasks.filter(task => !task.completed).forEach(task => {
-            const li = document.createElement("li");
-            li.textContent = `${task.title} (Échéance: ${task.date} à ${task.time})`;
-            additionalTasksList.appendChild(li);
-        });
+        if (title && date && time) {
+            const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+            tasks.push({ title, date, time, completed: false });
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+            taskTitleInput.value = "";
+            taskDateInput.value = "";
+            taskTimeInput.value = "";
+            updateTaskList();
+        }
     }
 
-    // Sauvegarder une nouvelle tâche
-    function saveTask() {
-        const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-        const task = {
-            title: taskTitleInput.value,
-            priority: taskPriorityInput.value,
-            date: taskDateInput.value,
-            time: taskTimeInput.value,
-            completed: false
-        };
-
-        tasks.push(task);
-        localStorage.setItem("tasks", JSON.stringify(tasks));
-        updateTasks(); // Mets à jour l'affichage des tâches
-    }
-
-    // Mettre à jour l'affichage de la liste des tâches
-    function updateTasks() {
+    // 3. Mettre à jour la liste des tâches dans le DOM
+    function updateTaskList() {
         const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
         taskList.innerHTML = "";
-
-        tasks.forEach((task, index) => {
+        tasks.forEach(task => {
             const li = document.createElement("li");
             li.textContent = `${task.title} - ${task.date} ${task.time}`;
-            li.classList.add(task.completed ? "completed" : "");
-
             const checkbox = document.createElement("input");
             checkbox.type = "checkbox";
             checkbox.checked = task.completed;
             checkbox.addEventListener("change", () => {
                 task.completed = checkbox.checked;
                 localStorage.setItem("tasks", JSON.stringify(tasks));
-                updateTasks();
+                updateTaskList();
             });
-
             li.prepend(checkbox);
             taskList.appendChild(li);
         });
     }
 
-    // Gestion de la fin de journée
-    function endDay() {
-        localStorage.setItem("lastEndDate", new Date().toISOString().slice(0, 10));
-        popupOverlay.style.display = "flex";
-        updatePopupTasks();
+    // 4. Soumettre un feedback et ajouter une entrée au graphique
+    function submitFeedback() {
+        const weight = parseFloat(feedbackWeight.value);
+        const reps = parseInt(feedbackReps.value, 10);
+
+        if (!isNaN(weight) && !isNaN(reps)) {
+            const today = new Date().toDateString();
+            const progressData = JSON.parse(localStorage.getItem("progressData")) || [];
+            progressData.push({ date: today, progress: Math.min(weight * reps / 100, 100) });
+            localStorage.setItem("progressData", JSON.stringify(progressData));
+            feedbackWeight.value = "";
+            feedbackReps.value = "";
+            updateProgressChart(progressData);
+        }
     }
 
-    // Gestion des événements
-    startDayButton.addEventListener("click", () => popupOverlay.style.display = "none");
-    endDayButton.addEventListener("click", endDay);
-    addTaskButton.addEventListener("click", saveTask);
+    // 5. Terminer la journée et sauvegarder l'état
+    function endDay() {
+        const today = new Date().toDateString();
+        localStorage.setItem("lastEndDay", today);
+        checkPopupDisplay();
+    }
 
-    // Initialisation
-    updateTasks();
-    showPopup();
+    // 6. Mettre à jour le graphique de progression avec les données
+    function updateProgressChart(data) {
+        const ctx = progressChartCanvas.getContext('2d');
+        if (progressChart) {
+            progressChart.destroy();
+        }
+        progressChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: data.map(item => item.date),
+                datasets: [{
+                    label: 'Avancement',
+                    data: data.map(item => item.progress),
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 2,
+                    fill: false,
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        title: {
+                            display: true,
+                            text: 'Pourcentage d\'achèvement'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Dates'
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // Initialisation et événements
+    function initialize() {
+        checkPopupDisplay();
+        updateTaskList();
+
+        const progressData = JSON.parse(localStorage.getItem("progressData")) || [];
+        updateProgressChart(progressData);
+
+        addTaskButton.addEventListener("click", addTask);
+        submitFeedbackButton.addEventListener("click", submitFeedback);
+        endDayButton.addEventListener("click", endDay);
+    }
+
+    initialize();
 });
