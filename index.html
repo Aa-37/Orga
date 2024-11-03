@@ -37,21 +37,21 @@
                 </ul>
             </div>
             <div class="feedback">
-                <input type="number" id="feedback-weight" placeholder="Poids (kg)" aria-label="Poids" min="0">
-                <input type="number" id="feedback-reps" placeholder="Répétitions" aria-label="Répétitions" min="0">
+                <input type="number" id="feedback-weight" name="feedback-weight" placeholder="Poids (kg)" aria-label="Poids" min="0">
+                <input type="number" id="feedback-reps" name="feedback-reps" placeholder="Répétitions" aria-label="Répétitions" min="0">
                 <button id="submit-feedback" aria-label="Soumettre Feedback">Soumettre Feedback</button>
             </div>
         </section>
 
         <section id="devoirs" class="tab-content">
             <h2>Devoirs et Tâches</h2>
-            <input type="text" id="task-title" placeholder="Titre de la tâche" aria-label="Titre de la tâche">
-            <select id="task-priority">
+            <input type="text" id="task-title" name="task-title" placeholder="Titre de la tâche" aria-label="Titre de la tâche">
+            <select id="task-priority" name="task-priority">
                 <option value="moyen">Moyen</option>
                 <option value="urgent">Urgent</option>
             </select>
-            <input type="date" id="task-date" aria-label="Date d'échéance">
-            <input type="time" id="task-time" aria-label="Heure d'échéance">
+            <input type="date" id="task-date" name="task-date" aria-label="Date d'échéance">
+            <input type="time" id="task-time" name="task-time" aria-label="Heure d'échéance">
             <button id="add-task-btn" aria-label="Ajouter Tâche">Ajouter Tâche</button>
             <ul id="task-list">
                 <!-- Tasks will be added dynamically here -->
@@ -84,7 +84,7 @@
             <ul>
                 <li>
                     Heure de coucher : 
-                    <input type="time" id="bedtime" aria-label="Heure de coucher">
+                    <input type="time" id="bedtime" name="bedtime" aria-label="Heure de coucher">
                     <input type="checkbox" id="goal-bedtime" aria-label="Couché avant 23h"> Couché avant 23h
                 </li>
                 <li>
@@ -102,4 +102,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
